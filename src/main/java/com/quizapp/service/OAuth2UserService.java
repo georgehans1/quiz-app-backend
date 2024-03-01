@@ -51,11 +51,10 @@ public class OAuth2UserService extends OidcUserService {
         log.info("User info is {}", userInfoDto);
         String userEmail = userInfoDto.getEmail();
         Optional<User> userOptional = userRepository.findByEmail(userEmail);
-        log.info("User is {}", userOptional);
         User user = userOptional
                 .map(existingUser -> updateExistingUser(existingUser, userInfoDto))
                 .orElseGet(() -> registerNewUser(userInfoDto));
-        return new DefaultOidcUser(user.getAuthorities(), oidcUserRequest.getIdToken());
+        return new DefaultOidcUser(oidcUser.getAuthorities(), oidcUserRequest.getIdToken());
     }
 
     private User registerNewUser(OidcUserInfo userInfoDto) {
@@ -64,13 +63,14 @@ public class OAuth2UserService extends OidcUserService {
                 .userName(userInfoDto.getName())
                 .email(userInfoDto.getEmail())
                 .userImage(userInfoDto.getPicture())
-                .userRole(Roles.DEV.toString())
+                .userRole(Roles.USER.toString())
                 .build();
         userRepository.save(user);
         return user;
     }
 
     private User updateExistingUser(User existingUser,OidcUserInfo userInfoDto) {
+        log.info("{}","Authenticated");
         existingUser.setUserName(userInfoDto.getName());
         existingUser.setUserImage(userInfoDto.getPicture());
         return userRepository.save(existingUser);

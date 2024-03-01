@@ -15,10 +15,10 @@ public class AuthController {
 
     @GetMapping("/")
     public Object Test(Authentication authentication) {
-        return authentication.getPrincipal();
+        return authentication.getCredentials();
     }
 
-    @GetMapping("/user")
+    @GetMapping("/users")
     public Object user() {
         return userService.getAllUsers();
     }

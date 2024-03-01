@@ -19,8 +19,8 @@ spring:
           google:
             client-id: "95132480527-6ej7h67pki6o17lsef05mg0of9oojkhj.apps.googleusercontent.com"
             client-secret: "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"
-logging:
-  level:
-    org:
-      springframework:
-        security : "TRACE"
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        security : "TRACE"

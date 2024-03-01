@@ -11,5 +11,6 @@ public class OidcUserInfo {
     private String picture;
     private String email;
     private String provider;
+    private String role;
 }
 
