@@ -58,7 +58,6 @@ public class SecurityConfig {
                 }, AnyRequestMatcher.INSTANCE))
                 .logout(handler -> {
                     handler.logoutUrl("/logout").permitAll();
-                    handler.logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
                     handler.clearAuthentication(true);
                     handler.invalidateHttpSession(true);
                     handler.deleteCookies("JSESSIONID");
