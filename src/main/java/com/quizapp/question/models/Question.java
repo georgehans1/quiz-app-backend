@@ -1,14 +1,20 @@
 package com.quizapp.question.models;
 
 
+import com.quizapp.answer.models.Answer;
 import com.quizapp.quiz.models.Quiz;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(schema = "quizapp",name="question")
@@ -18,8 +24,8 @@ import java.time.LocalDateTime;
 @Data
 public class Question {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long questionId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID questionId;
 
     @ManyToOne
     @JoinColumn(name = "quiz_id", nullable = false)
@@ -28,9 +34,14 @@ public class Question {
     @Column(nullable = false)
     private String text;
 
-    @Column(nullable = false, name = "created_at")
-    private LocalDateTime createdAt;
+    @CreationTimestamp
+    @Column(name = "created_at")
+    private Timestamp createdAt;
 
-    @Column(nullable = false, name = "updated_at")
-    private LocalDateTime updatedAt;
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private Timestamp updatedAt;
+
+    @OneToMany(mappedBy = "question")
+    private List<Answer> answers;
 }

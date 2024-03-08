@@ -1,8 +1,10 @@
 package com.quizapp.auth.service;
 
+import com.quizapp.auth.models.Authority;
 import com.quizapp.user.dto.OidcUserInfo;
 import com.quizapp.user.enums.Roles;
 import com.quizapp.user.models.User;
+import com.quizapp.auth.repository.AuthorityRepository;
 import com.quizapp.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Optional;
 
 @Slf4j
@@ -25,7 +28,10 @@ import java.util.Optional;
 public class OAuth2UserService extends OidcUserService {
 
     @Autowired
-    private final UserRepository userRepository;
+    private UserRepository userRepository;
+
+    @Autowired
+    private AuthorityRepository authorityRepository;
 
     @Override
     @SneakyThrows
@@ -51,18 +57,23 @@ public class OAuth2UserService extends OidcUserService {
         User user = userOptional
                 .map(existingUser -> updateExistingUser(existingUser, userInfoDto))
                 .orElseGet(() -> registerNewUser(userInfoDto));
-        log.info("User Token is {}", oidcUser.getIdToken().toString());
+        log.info("User Token is {}", oidcUser.getIdToken().getTokenValue());
         return new DefaultOidcUser(oidcUser.getAuthorities(), oidcUserRequest.getIdToken());
     }
 
     private User registerNewUser(OidcUserInfo userInfoDto) {
         User user = User.builder()
-                .providerId(userInfoDto.getId())
+                .provider(userInfoDto.getProvider())
                 .userName(userInfoDto.getName())
                 .email(userInfoDto.getEmail())
                 .userImage(userInfoDto.getPicture())
-                .userRole(Roles.USER.toString())
                 .build();
+        Authority authority = authorityRepository.findByName(Roles.USER)
+                .orElseThrow(() -> new RuntimeException("Role not found"));
+
+        // Assign the authority to the user
+        user.setAuthorities(Collections.singleton(authority));
+        log.info("User Info is {}", user);
         userRepository.save(user);
         return user;
     }

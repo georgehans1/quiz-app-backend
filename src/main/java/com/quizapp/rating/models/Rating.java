@@ -1,7 +1,7 @@
-package com.quizapp.category.models;
+package com.quizapp.rating.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.quizapp.quiz.models.Quiz;
+import com.quizapp.user.models.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,29 +12,28 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
-@Entity
-@Table(schema = "quizapp",name="category")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Category {
+@Entity
+@Table(schema = "quizapp" ,name = "rating")
+public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "category_id")
-    private UUID categoryId;
+    private UUID ratingId;
 
-    @Column(name = "category_name",nullable = false)
-    private String categoryName;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    @Column(name = "description",nullable = false, length = 2048)
-    private String description;
+    @ManyToOne
+    @JoinColumn(name = "quiz_id", nullable = false)
+    private Quiz quiz;
 
-    @Column(name = "category_image", nullable = false)
-    private String categoryImage;
+    private int rating;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -43,8 +42,5 @@ public class Category {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private Timestamp updatedAt;
-
-    @OneToMany(mappedBy = "category")
-    private List<Quiz> quizzes;
 
 }

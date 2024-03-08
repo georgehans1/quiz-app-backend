@@ -1,13 +1,20 @@
 package com.quizapp.quiz.models;
 
 import com.quizapp.category.models.Category;
+import com.quizapp.question.models.Question;
+import com.quizapp.rating.models.Rating;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(schema = "quizapp",name="quiz")
@@ -17,8 +24,8 @@ import java.time.LocalDateTime;
 @Data
 public class Quiz {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long quizId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID quizId;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
@@ -27,15 +34,27 @@ public class Quiz {
     @Column(nullable = false)
     private String title;
 
+    @Column(nullable = false)
     private String description;
 
+    @Column(nullable = false)
     private String tag;
 
+    @Column(nullable = false)
     private String quizImage;
 
-    @Column(nullable = false, name = "created_at")
-    private LocalDateTime createdAt;
+    @CreationTimestamp
+    @Column(name = "created_at")
+    private Timestamp createdAt;
 
-    @Column(nullable = false, name = "updated_at")
-    private LocalDateTime updatedAt;
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private Timestamp updatedAt;
+
+
+    @OneToMany(mappedBy = "quiz")
+    private List<Question> questions;
+
+    @OneToMany(mappedBy = "quiz")
+    private List<Rating> ratings;
 }

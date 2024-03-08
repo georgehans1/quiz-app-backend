@@ -7,8 +7,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(schema = "quizapp",name="result")
@@ -18,8 +21,8 @@ import java.time.LocalDateTime;
 @Data
 public class Result {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long resultId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID resultId;
 
     @ManyToOne
     @JoinColumn(name = "id", nullable = false)
@@ -35,7 +38,8 @@ public class Result {
     @Column(nullable = false, name = "date_taken")
     private LocalDateTime dateTaken;
 
-    @Column(nullable = false, name = "created_at")
-    private LocalDateTime createdAt;
+    @CreationTimestamp
+    @Column(name = "created_at")
+    private Timestamp createdAt;
 
 }

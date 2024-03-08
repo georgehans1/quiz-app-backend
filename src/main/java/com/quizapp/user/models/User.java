@@ -1,7 +1,7 @@
 package com.quizapp.user.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.quizapp.user.dto.Authority;
+import com.quizapp.rating.models.Rating;
+import com.quizapp.auth.models.Authority;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,6 +11,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -22,33 +23,30 @@ import java.util.UUID;
 @NoArgsConstructor
 public class User {
     @Id
-    @JsonProperty
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id")
-    private UUID id;
-    @OneToMany(fetch = FetchType.EAGER)
-    private Set<Authority> authorities;
-    @JsonProperty
-    @Column(name = "user_name")
+    private UUID userId;
+
     private String userName;
-    @JsonProperty
-    @Column(name = "email")
     private String email;
-    @JsonProperty
-    @Column(name = "user_image")
+    private String provider;
     private String userImage;
-    @JsonProperty
-    @Column(name = "provider_id")
-    private String providerId;
-    @JsonProperty
-    @Column(name = "user_role")
-    private String userRole;
-    @JsonProperty
+
     @CreationTimestamp
     @Column(name = "created_at")
     private Timestamp createdAt;
-    @JsonProperty
+
     @UpdateTimestamp
     @Column(name = "updated_at")
     private Timestamp updatedAt;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_authorities",
+            schema = "quizapp",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "authority_id"))
+    private Set<Authority> authorities;
+
+    @OneToMany(mappedBy = "user")
+    private List<Rating> ratings;
 }
