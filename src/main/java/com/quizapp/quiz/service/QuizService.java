@@ -58,10 +58,18 @@ public class QuizService implements IQuizService{
                 .description(quiz.getDescription())
                 .category(categoryService.getCategoryById(quiz.getCategoryId()))
                 .tag(quiz.getTag())
+                .isActive(false)
                 .build();
-        log.info("Build {}", saveQuiz);
+        log.info("Creating Quiz");
         quizRepository.save(saveQuiz);
         return saveQuiz;
+    }
+
+    @Override
+    public void changeQuizActiveStatus(UUID id) throws NotFoundException{
+        Quiz quiz = getQuizById(id);
+        quiz.setIsActive(!quiz.getIsActive());
+        quizRepository.save(quiz);
     }
 
     @Override

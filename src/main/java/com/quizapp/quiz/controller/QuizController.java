@@ -62,4 +62,10 @@ public class QuizController {
         quizService.deleteQuiz(id);
     }
 
+    @PatchMapping("/{quizId}/toggle-active")
+    public ResponseEntity<?> toggleQuizActiveState(@PathVariable UUID quizId) throws NotFoundException {
+        quizService.changeQuizActiveStatus(quizId);
+        return ResponseEntity.ok().build();
+    }
+
 }

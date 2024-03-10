@@ -51,6 +51,8 @@ public class Quiz {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
+    @Column(name = "is_active", nullable = false)
+    private Boolean isActive;
 
     @OneToMany(mappedBy = "quiz")
     private List<Question> questions;

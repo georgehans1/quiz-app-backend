@@ -18,4 +18,5 @@ public interface IQuizService {
     void editQuiz(UUID id, QuizCreateRequest quiz) throws NotFoundException;
     void deleteQuiz(UUID id) throws NotFoundException;
     List<QuizResponse> getQuizByCategoryId(UUID id);
+    void changeQuizActiveStatus(UUID id)throws NotFoundException;
 }

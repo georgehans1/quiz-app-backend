@@ -13,7 +13,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -21,24 +20,27 @@ import java.util.UUID;
 @NoArgsConstructor
 public class QuizResponse {
     private UUID quizId;
-    private UUID categoryId;
+    private CategoryResponse category;
     private String title;
     private String description;
     private String tag;
     private String quizImage;
     private Timestamp createdAt;
+    private Boolean isActive;
 
 
     public static QuizResponse fromQuiz(Quiz quiz)
     {
+        CategoryResponse categoryResponse = CategoryResponse.fromCategory(quiz.getCategory());
         return new QuizResponse(
                 quiz.getQuizId(),
-                quiz.getCategory().getCategoryId(),
+                categoryResponse,
                 quiz.getTitle(),
                 quiz.getDescription(),
                 quiz.getTag(),
                 quiz.getQuizImage(),
-                quiz.getCreatedAt()
+                quiz.getCreatedAt(),
+                quiz.getIsActive()
         );
     }
 
