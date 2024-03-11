@@ -1,6 +1,7 @@
 package com.quizapp.quiz.dto;
 
 import com.quizapp.category.models.Category;
+import com.quizapp.quiz.enums.DifficultyLevel;
 import lombok.Data;
 
 import java.util.UUID;
@@ -12,4 +13,5 @@ public class QuizCreateRequest {
     private String description;
     private String tag;
     private String quizImage;
+    private DifficultyLevel difficultyLevel;
 }

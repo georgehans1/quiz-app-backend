@@ -3,6 +3,7 @@ package com.quizapp.quiz.dto;
 import com.quizapp.category.dto.CategoryResponse;
 import com.quizapp.category.models.Category;
 import com.quizapp.question.models.Question;
+import com.quizapp.quiz.enums.DifficultyLevel;
 import com.quizapp.quiz.models.Quiz;
 import com.quizapp.rating.models.Rating;
 import jakarta.persistence.*;
@@ -27,6 +28,7 @@ public class QuizResponse {
     private String quizImage;
     private Timestamp createdAt;
     private Boolean isActive;
+    private DifficultyLevel difficultyLevel;
 
 
     public static QuizResponse fromQuiz(Quiz quiz)
@@ -40,7 +42,8 @@ public class QuizResponse {
                 quiz.getTag(),
                 quiz.getQuizImage(),
                 quiz.getCreatedAt(),
-                quiz.getIsActive()
+                quiz.getIsActive(),
+                quiz.getDifficultyLevel()
         );
     }
 

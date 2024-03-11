@@ -59,6 +59,7 @@ public class QuizService implements IQuizService{
                 .category(categoryService.getCategoryById(quiz.getCategoryId()))
                 .tag(quiz.getTag())
                 .isActive(false)
+                .difficultyLevel(quiz.getDifficultyLevel())
                 .build();
         log.info("Creating Quiz");
         quizRepository.save(saveQuiz);

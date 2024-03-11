@@ -2,6 +2,7 @@ package com.quizapp.quiz.models;
 
 import com.quizapp.category.models.Category;
 import com.quizapp.question.models.Question;
+import com.quizapp.quiz.enums.DifficultyLevel;
 import com.quizapp.rating.models.Rating;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -53,6 +54,9 @@ public class Quiz {
 
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;
+
+    @Column(nullable = false)
+    private DifficultyLevel difficultyLevel;
 
     @OneToMany(mappedBy = "quiz")
     private List<Question> questions;
