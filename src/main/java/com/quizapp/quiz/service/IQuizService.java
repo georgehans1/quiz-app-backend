@@ -14,6 +14,7 @@ import java.util.UUID;
 public interface IQuizService {
     List<QuizResponse> getAllQuiz();
     Quiz getQuizById(UUID id) throws NotFoundException;
+    QuizResponse getQuizResponseById(UUID id) throws NotFoundException;
     Quiz saveQuiz(QuizCreateRequest quiz) throws NotFoundException;
     void editQuiz(UUID id, QuizCreateRequest quiz) throws NotFoundException;
     void deleteQuiz(UUID id) throws NotFoundException;

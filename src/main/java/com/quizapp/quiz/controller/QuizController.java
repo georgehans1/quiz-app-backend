@@ -36,10 +36,10 @@ public class QuizController {
         return ResponseEntity.status(HttpStatus.CREATED).body(Collections.singletonMap("message", "Quiz created successfully"));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{quizId}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Quiz> getQuizById(@PathVariable UUID id) throws NotFoundException {
-        return ResponseEntity.ok(quizService.getQuizById(id));
+    public ResponseEntity<QuizResponse> getQuizById(@PathVariable UUID quizId) throws NotFoundException {
+        return ResponseEntity.ok(quizService.getQuizResponseById(quizId));
     }
 
     @GetMapping("/category/{id}")

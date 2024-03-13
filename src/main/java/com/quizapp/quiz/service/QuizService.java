@@ -35,6 +35,12 @@ public class QuizService implements IQuizService{
     }
 
     @Override
+    public QuizResponse getQuizResponseById(UUID id) throws NotFoundException {
+        return quizRepository.findById(id).map(QuizResponse :: fromQuiz)
+                .orElseThrow(() -> new NotFoundException("Quiz not found."));
+    }
+
+    @Override
     public Quiz getQuizById(UUID id) throws NotFoundException {
         return quizRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Quiz not found."));
