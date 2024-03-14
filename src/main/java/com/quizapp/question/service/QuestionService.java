@@ -10,6 +10,7 @@ import com.quizapp.quiz.models.Quiz;
 import com.quizapp.quiz.service.QuizService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,8 +24,14 @@ public class QuestionService implements IQuestionService {
     @Autowired
     private QuestionRepository questionRepository;
 
+
+    private final QuizService quizService;
+
+
     @Autowired
-    private QuizService quizService;
+    public QuestionService(@Lazy QuizService quizService) {
+        this.quizService = quizService;
+    }
 
     @Override
     public Question saveQuestion(CreateQuestionRequest questionRequest) throws NotFoundException {

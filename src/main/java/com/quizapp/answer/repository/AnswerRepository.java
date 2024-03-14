@@ -13,4 +13,7 @@ import java.util.UUID;
 public interface AnswerRepository extends JpaRepository<Answer,UUID> {
     @Query("SELECT a FROM Answer a WHERE a.question.id = :questionId")
     List<Answer> findAllByQuestionId(UUID questionId);
+
+    @Query("SELECT a FROM Answer a WHERE a.question.quiz.quizId = :quizId AND a.isCorrect = true")
+    List<Answer> findCorrectAnswersByQuizId(UUID quizId);
 }

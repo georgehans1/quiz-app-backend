@@ -18,6 +18,13 @@ public class AnswerResponse {
     private Timestamp createdAt;
     private Boolean isCorrect;
 
+    public AnswerResponse(UUID answerId, UUID questionId, String text, Timestamp createdAt) {
+        this.answerId = answerId;
+        this.questionId = questionId;
+        this.text = text;
+        this.createdAt = createdAt;
+    }
+
     public static AnswerResponse fromAnswer(Answer answer) {
         return new AnswerResponse(
                 answer.getAnswerId(),
@@ -25,6 +32,15 @@ public class AnswerResponse {
                 answer.getText(),
                 answer.getCreatedAt(),
                 answer.getIsCorrect()
+        );
+    }
+
+    public static AnswerResponse fromUserAnswer(Answer answer) {
+        return new AnswerResponse(
+                answer.getAnswerId(),
+                answer.getQuestion().getQuestionId(),
+                answer.getText(),
+                answer.getCreatedAt()
         );
     }
 }

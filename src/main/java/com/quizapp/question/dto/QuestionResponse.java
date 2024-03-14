@@ -39,4 +39,19 @@ public class QuestionResponse {
                 answerResponses
         );
     }
+
+    public static QuestionResponse fromUserQuestion(Question question)
+    {
+        List<AnswerResponse> answerResponses = new ArrayList<>();
+        for (Answer answer : question.getAnswers()) {
+            answerResponses.add(AnswerResponse.fromUserAnswer(answer));
+        }
+        return new QuestionResponse(
+                question.getQuestionId(),
+                question.getQuiz().getQuizId(),
+                question.getText(),
+                question.getCreatedAt(),
+                answerResponses
+        );
+    }
 }

@@ -3,8 +3,10 @@ package com.quizapp.quiz.controller;
 import com.quizapp.common.exceptions.NotFoundException;
 import com.quizapp.quiz.dto.QuizCreateRequest;
 import com.quizapp.quiz.dto.QuizResponse;
-import com.quizapp.quiz.models.Quiz;
+import com.quizapp.quiz.dto.UserQuizResponse;
 import com.quizapp.quiz.service.IQuizService;
+import com.quizapp.take.dto.TakeCreateRequest;
+import com.quizapp.take.dto.TakeResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,11 +38,25 @@ public class QuizController {
         return ResponseEntity.status(HttpStatus.CREATED).body(Collections.singletonMap("message", "Quiz created successfully"));
     }
 
+    @PostMapping("/submit")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<TakeResponse> processQuizSubmission(@RequestBody TakeCreateRequest createRequest) throws NotFoundException{
+        TakeResponse response = quizService.processQuizSubmission(createRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
     @GetMapping("/{quizId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<QuizResponse> getQuizById(@PathVariable UUID quizId) throws NotFoundException {
         return ResponseEntity.ok(quizService.getQuizResponseById(quizId));
     }
+
+    @GetMapping("/userQuiz/{quizId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<UserQuizResponse> getUserQuiz(@PathVariable UUID quizId) throws NotFoundException {
+        return ResponseEntity.ok(quizService.userQuizObject(quizId));
+    }
+
 
     @GetMapping("/category/{id}")
     @ResponseStatus(HttpStatus.OK)

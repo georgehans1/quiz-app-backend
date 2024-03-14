@@ -1,7 +1,7 @@
-package com.quizapp.result.models;
+package com.quizapp.take.models;
 
 import com.quizapp.quiz.models.Quiz;
-import com.quizapp.take.models.Take;
+import com.quizapp.result.models.Result;
 import com.quizapp.user.models.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,33 +15,33 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(schema = "quizapp",name="result")
+@Table(schema = "quizapp",name="take")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Result {
+public class Take {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID resultId;
-
-    @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
-    private User user;
-
-    @OneToOne
-    @JoinColumn(name = "take_id")
-    private Take take;
+    private UUID takeId;
 
     @ManyToOne
     @JoinColumn(name = "quiz_id", nullable = false)
     private Quiz quiz;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     @Column(nullable = false)
-    private Integer score;
+    private Long timeElapsed;
 
     @CreationTimestamp
     @Column(name = "created_at")
-    private Timestamp createdAt;
+    private Timestamp dateTaken;
+
+    @OneToOne(mappedBy = "take")
+    private Result result;
+
 
 }

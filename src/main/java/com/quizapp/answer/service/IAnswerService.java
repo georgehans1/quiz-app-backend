@@ -11,4 +11,5 @@ import java.util.UUID;
 public interface IAnswerService {
     Answer saveAnswer(CreateAnswerRequest answerRequest) throws NotFoundException;
     List<AnswerResponse> getAllAnswersByQuestionId(UUID questionId);
+    List<Answer> getCorrectAnswersForQuiz(UUID quizId);
 }

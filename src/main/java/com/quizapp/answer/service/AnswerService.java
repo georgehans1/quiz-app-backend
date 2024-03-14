@@ -10,6 +10,7 @@ import com.quizapp.question.models.Question;
 import com.quizapp.question.service.QuestionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,9 +25,13 @@ public class AnswerService implements IAnswerService {
     @Autowired
     private AnswerRepository answerRepository;
 
-    @Autowired
-    private QuestionService questionService;
 
+    private final QuestionService questionService;
+
+    @Autowired
+    public AnswerService(@Lazy QuestionService questionService) {
+        this.questionService = questionService;
+    }
 
     @Override
     public Answer saveAnswer(CreateAnswerRequest answerRequest) throws NotFoundException {
@@ -47,5 +52,9 @@ public class AnswerService implements IAnswerService {
         return answerList.stream().map(AnswerResponse:: fromAnswer).collect(Collectors.toList());
     }
 
+    public List<Answer> getCorrectAnswersForQuiz(UUID quizId) {
+        // Assuming this method retrieves the correct answers for the quiz from the database
+        return answerRepository.findCorrectAnswersByQuizId(quizId);
+    }
 
 }

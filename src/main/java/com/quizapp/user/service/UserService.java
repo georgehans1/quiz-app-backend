@@ -30,6 +30,12 @@ public class UserService implements IUserService {
                 .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
     }
 
+    @Override
+    public User getUserById(UUID id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+    }
+
     public List<User> getAllUsers(){
         return userRepository.findAll();
     }

@@ -4,6 +4,7 @@ import com.quizapp.category.models.Category;
 import com.quizapp.question.models.Question;
 import com.quizapp.quiz.enums.DifficultyLevel;
 import com.quizapp.rating.models.Rating;
+import com.quizapp.take.models.Take;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,7 +36,7 @@ public class Quiz {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
+    @Column(name = "description",nullable = false, length = 2048)
     private String description;
 
     @Column(nullable = false)
@@ -63,4 +64,7 @@ public class Quiz {
 
     @OneToMany(mappedBy = "quiz")
     private List<Rating> ratings;
+
+    @OneToMany(mappedBy = "quiz")
+    private List<Take> takes;
 }

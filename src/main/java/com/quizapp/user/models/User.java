@@ -2,6 +2,7 @@ package com.quizapp.user.models;
 
 import com.quizapp.rating.models.Rating;
 import com.quizapp.auth.models.Authority;
+import com.quizapp.take.models.Take;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -49,4 +50,7 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Rating> ratings;
+
+    @OneToMany(mappedBy = "user")
+    private List<Take> takes;
 }
