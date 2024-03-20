@@ -1,5 +1,6 @@
 package com.quizapp.answer.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.quizapp.question.models.Question;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,6 +27,7 @@ public class Answer {
 
     @ManyToOne
     @JoinColumn(name = "question_id", nullable = false)
+    @JsonIgnore
     private Question question;
 
     @Column(nullable = false)

@@ -1,5 +1,6 @@
 package com.quizapp.quiz.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.quizapp.common.exceptions.NotFoundException;
 import com.quizapp.quiz.dto.QuizCreateRequest;
 import com.quizapp.quiz.dto.QuizResponse;
@@ -20,6 +21,6 @@ public interface IQuizService {
     void deleteQuiz(UUID id) throws NotFoundException;
     List<QuizResponse> getQuizByCategoryId(UUID id);
     void changeQuizActiveStatus(UUID id)throws NotFoundException;
-    TakeResponse processQuizSubmission(TakeCreateRequest request) throws NotFoundException;
+    TakeResponse processQuizSubmission(TakeCreateRequest request) throws NotFoundException, JsonProcessingException;
     UserQuizResponse userQuizObject(UUID quizId) throws NotFoundException;
 }

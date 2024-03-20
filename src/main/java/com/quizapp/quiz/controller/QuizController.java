@@ -1,5 +1,6 @@
 package com.quizapp.quiz.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.quizapp.common.exceptions.NotFoundException;
 import com.quizapp.quiz.dto.QuizCreateRequest;
 import com.quizapp.quiz.dto.QuizResponse;
@@ -40,7 +41,7 @@ public class QuizController {
 
     @PostMapping("/submit")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<TakeResponse> processQuizSubmission(@RequestBody TakeCreateRequest createRequest) throws NotFoundException{
+    public ResponseEntity<TakeResponse> processQuizSubmission(@RequestBody TakeCreateRequest createRequest) throws NotFoundException, JsonProcessingException {
         TakeResponse response = quizService.processQuizSubmission(createRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

@@ -1,5 +1,6 @@
 package com.quizapp.category.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.quizapp.quiz.models.Quiz;
 import jakarta.persistence.*;
@@ -44,6 +45,7 @@ public class Category {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "category")
     private List<Quiz> quizzes;
 

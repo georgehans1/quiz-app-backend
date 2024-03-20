@@ -1,5 +1,6 @@
 package com.quizapp.result.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.quizapp.quiz.models.Quiz;
 import com.quizapp.take.models.Take;
 import com.quizapp.user.models.User;
@@ -35,10 +36,15 @@ public class Result {
 
     @ManyToOne
     @JoinColumn(name = "quiz_id", nullable = false)
+    @JsonIgnore
     private Quiz quiz;
 
     @Column(nullable = false)
     private Integer score;
+
+
+    @Column(columnDefinition = "TEXT")
+    private String userSubmission;
 
     @CreationTimestamp
     @Column(name = "created_at")

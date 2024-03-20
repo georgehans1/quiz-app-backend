@@ -1,6 +1,9 @@
 package com.quizapp.take.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.quizapp.answer.dto.AnswerSubmission;
 import com.quizapp.quiz.models.Quiz;
+import com.quizapp.result.dto.QuestionResultDTO;
 import com.quizapp.result.models.Result;
 import com.quizapp.user.models.User;
 import jakarta.persistence.*;
@@ -12,6 +15,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -27,6 +31,7 @@ public class Take {
 
     @ManyToOne
     @JoinColumn(name = "quiz_id", nullable = false)
+    @JsonIgnore
     private Quiz quiz;
 
     @ManyToOne
@@ -42,6 +47,4 @@ public class Take {
 
     @OneToOne(mappedBy = "take")
     private Result result;
-
-
 }

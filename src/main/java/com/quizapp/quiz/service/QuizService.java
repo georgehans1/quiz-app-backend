@@ -1,5 +1,7 @@
 package com.quizapp.quiz.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.quizapp.answer.dto.AnswerSubmission;
 import com.quizapp.answer.models.Answer;
 import com.quizapp.answer.service.IAnswerService;
@@ -12,6 +14,7 @@ import com.quizapp.quiz.dto.QuizResponse;
 import com.quizapp.quiz.dto.UserQuizResponse;
 import com.quizapp.quiz.models.Quiz;
 import com.quizapp.quiz.repository.QuizRepository;
+import com.quizapp.result.dto.QuestionResultDTO;
 import com.quizapp.result.models.Result;
 import com.quizapp.result.repository.ResultRepository;
 import com.quizapp.take.dto.TakeCreateRequest;
@@ -121,27 +124,39 @@ public class QuizService implements IQuizService{
         return quiz;
     }
 
-    public TakeResponse processQuizSubmission(TakeCreateRequest request) throws NotFoundException {
+    public TakeResponse processQuizSubmission(TakeCreateRequest request) throws NotFoundException, JsonProcessingException {
         Take take = takeService.takeQuiz(request);
+        List<QuestionResultDTO> questionResultDTOList = new ArrayList<>();
         User currentUser = userService.getUserById(request.getUserId());
         Quiz currentQuiz = getQuizById(request.getQuizId());
 
         Result result = new Result();
         result.setQuiz(currentQuiz);
         result.setUser(currentUser);
-//        List<Answer> correctAnswers = answerService.getCorrectAnswersForQuiz(request.getQuizId());
-//        List<AnswerResponse> wrongAnswers = new ArrayList<>();
         int score = 0;
         for (AnswerSubmission answerDTO : request.getAnswers()) {
+            QuestionResultDTO questionResultDTO = new QuestionResultDTO();
             Question question = questionService.findQuestionById(answerDTO.getQuestionId());
-                for(Answer answer : question.getAnswers()){
+            questionResultDTO.setText(question.getText());
+            questionResultDTO.setUserAnswer(question.getAnswers().stream().filter(answer -> answer.getAnswerId().equals(answerDTO.getSelectedAnswerId()))
+                    .findFirst().orElseThrow(()-> new NotFoundException("User Answer Not Found")).getText());
+            questionResultDTO.setCorrectAnswer(question.getAnswers().stream().filter(answer -> answer.getIsCorrect().equals(true))
+                    .findFirst().orElseThrow(()-> new NotFoundException("Correct Answer Not Found")).getText());
+            questionResultDTO.setQuizId(currentQuiz.getQuizId());
+            questionResultDTO.setTakeId(take.getTakeId());
+            questionResultDTO.setIsCorrect(Objects.equals(questionResultDTO.getUserAnswer(), questionResultDTO.getCorrectAnswer()));
+            for(Answer answer : question.getAnswers()){
                     if(answer.getAnswerId().equals(answerDTO.getSelectedAnswerId()) && answer.getIsCorrect().equals(true)){
                         score++;
                     }
                 }
+            questionResultDTOList.add(questionResultDTO);
         }
+        ObjectMapper objectMapper = new ObjectMapper();
+        String submission = objectMapper.writeValueAsString(questionResultDTOList);
         result.setScore(score);
         result.setTake(take);
+        result.setUserSubmission(submission);
         take.setResult(result);
         resultRepository.save(result);
 
