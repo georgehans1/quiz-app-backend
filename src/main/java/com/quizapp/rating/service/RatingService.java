@@ -12,10 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -53,6 +50,7 @@ public class RatingService implements IRatingService {
 
         List<RatingDTO> ratingList = ratingRepository.findAllByQuizId(quizId).stream()
                 .map(RatingDTO::fromRating)
+                .sorted(Comparator.comparing(RatingDTO::getCreatedAt).reversed())
                 .collect(Collectors.toList());
 
         // Initialize rating numbers map with all ratings from 1 to 5
