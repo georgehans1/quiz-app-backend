@@ -35,6 +35,10 @@ public class Rating {
 
     private int rating;
 
+    private String text;
+
+    private String description;
+
     @CreationTimestamp
     @Column(name = "created_at")
     private Timestamp createdAt;
