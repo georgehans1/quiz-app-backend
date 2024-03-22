@@ -22,6 +22,7 @@ public class ResultDTO {
     private String userImage;
     private UUID quizId;
     private Integer score;
+    private Integer questionCount;
     private List<QuestionResultDTO> userSubmission;
     private Timestamp createdAt;
 
@@ -36,6 +37,7 @@ public class ResultDTO {
                 result.getUser().getUserName(),
                 result.getQuiz().getQuizId(),
                 result.getScore(),
+                result.getQuestionCount(),
                 resultDTO,
                 result.getCreatedAt()
         );

@@ -8,10 +8,12 @@ import com.quizapp.quiz.dto.UserQuizResponse;
 import com.quizapp.quiz.service.IQuizService;
 import com.quizapp.take.dto.TakeCreateRequest;
 import com.quizapp.take.dto.TakeResponse;
+import com.quizapp.user.dto.UserStatistics;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -28,7 +30,7 @@ public class QuizController {
 
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<QuizResponse>> getQuiz(){
+    public ResponseEntity<List<QuizResponse>> getQuiz() throws NotFoundException {
         return ResponseEntity.ok(quizService.getAllQuiz());
     }
 
@@ -61,8 +63,14 @@ public class QuizController {
 
     @GetMapping("/category/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<QuizResponse>> getAllQuizByCategoryId(@PathVariable UUID id){
+    public ResponseEntity<List<QuizResponse>> getAllQuizByCategoryId(@PathVariable UUID id) throws NotFoundException {
         return ResponseEntity.ok(quizService.getQuizByCategoryId(id));
+    }
+
+    @GetMapping("/userStatistics")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<UserStatistics> getUserStats(Authentication userDetails) throws NotFoundException {
+        return ResponseEntity.ok(quizService.getUserStatistics(userDetails));
     }
 
     @PutMapping

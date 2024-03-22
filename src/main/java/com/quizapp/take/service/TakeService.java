@@ -51,4 +51,16 @@ public class TakeService implements ITakeService {
         userTake.setTakeNumber(takes.size());
         return userTake;
     }
+
+    @Override
+    public List<Take> getUserTakes(UUID userId) {
+        List<Take> takes = takeRepository.findAllByUserId(userId);
+        return takes;
+    }
+
+    @Override
+    public List<Take> getTakesByQuizId(UUID quizId) {
+        List<Take> takes = takeRepository.findAllByQuizId(quizId);
+        return takes;
+    }
 }

@@ -42,6 +42,9 @@ public class Result {
     @Column(nullable = false)
     private Integer score;
 
+    @Column
+    private Integer questionCount;
+
 
     @Column(columnDefinition = "TEXT")
     private String userSubmission;

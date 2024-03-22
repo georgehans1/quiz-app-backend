@@ -4,10 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.quizapp.common.exceptions.NotFoundException;
 import com.quizapp.quiz.models.Quiz;
 import com.quizapp.quiz.service.QuizService;
-import com.quizapp.result.dto.LeaderboardDTO;
-import com.quizapp.result.dto.QuestionResultDTO;
-import com.quizapp.result.dto.ResultDTO;
-import com.quizapp.result.dto.ResultLeaderboardDTO;
+import com.quizapp.result.dto.*;
 import com.quizapp.result.models.Result;
 import com.quizapp.result.repository.ResultRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +26,18 @@ public class ResultService implements IResultService{
     public ResultDTO getResultsByTakeId(UUID takeId) throws JsonProcessingException {
         ResultDTO resultDTO = ResultDTO.fromResult(resultRepository.findByTakeId(takeId));
         return resultDTO;
+    }
+
+    @Override
+    public UserResultsDTO getResultsByUserId(UUID userId){
+        List<Result> resultList = resultRepository.findAllByUserId(userId);
+        List<UserResultsDTO> userResultsDTOList = new ArrayList<>();
+        for(Result result : resultList){
+            userResultsDTOList.add(UserResultsDTO.fromUserResults(result));
+        }
+        UserResultsDTO recentResult = userResultsDTOList.stream().sorted(Comparator.comparing(UserResultsDTO :: getCreatedAt).reversed())
+                                        .collect(Collectors.toList()).get(0);
+        return recentResult;
     }
 
     @Override

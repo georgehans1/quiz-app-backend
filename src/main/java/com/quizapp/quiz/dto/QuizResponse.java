@@ -5,6 +5,7 @@ import com.quizapp.category.models.Category;
 import com.quizapp.question.models.Question;
 import com.quizapp.quiz.enums.DifficultyLevel;
 import com.quizapp.quiz.models.Quiz;
+import com.quizapp.rating.dto.QuizRatingDTO;
 import com.quizapp.rating.models.Rating;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -29,9 +30,10 @@ public class QuizResponse {
     private Timestamp createdAt;
     private Boolean isActive;
     private DifficultyLevel difficultyLevel;
+    private QuizRatingDTO quizRating;
 
 
-    public static QuizResponse fromQuiz(Quiz quiz)
+    public static QuizResponse fromQuiz(Quiz quiz, QuizRatingDTO quizRatingDTO)
     {
         CategoryResponse categoryResponse = CategoryResponse.fromCategory(quiz.getCategory());
         return new QuizResponse(
@@ -43,7 +45,8 @@ public class QuizResponse {
                 quiz.getQuizImage(),
                 quiz.getCreatedAt(),
                 quiz.getIsActive(),
-                quiz.getDifficultyLevel()
+                quiz.getDifficultyLevel(),
+                quizRatingDTO
         );
     }
 

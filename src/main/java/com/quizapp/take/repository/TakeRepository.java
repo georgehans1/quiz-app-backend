@@ -11,4 +11,10 @@ import java.util.UUID;
 public interface TakeRepository extends JpaRepository<Take, UUID> {
     @Query("SELECT t FROM Take t WHERE t.user.userId = :userId AND t.quiz.quizId = :quizId")
     List<Take> findAllByUserIdAndQuizId(@Param("userId") UUID userId, @Param("quizId") UUID quizId);
+
+    @Query("SELECT t FROM Take t WHERE t.user.userId = :userId")
+    List<Take> findAllByUserId(@Param("userId") UUID userId);
+
+    @Query("SELECT t FROM Take t WHERE t.quiz.quizId = :quizId")
+    List<Take> findAllByQuizId(@Param("quizId") UUID quizId);
 }

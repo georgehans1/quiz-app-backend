@@ -8,19 +8,22 @@ import com.quizapp.quiz.dto.UserQuizResponse;
 import com.quizapp.quiz.models.Quiz;
 import com.quizapp.take.dto.TakeCreateRequest;
 import com.quizapp.take.dto.TakeResponse;
+import com.quizapp.user.dto.UserStatistics;
+import org.springframework.security.core.Authentication;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface IQuizService {
-    List<QuizResponse> getAllQuiz();
+    List<QuizResponse> getAllQuiz() throws NotFoundException;
     Quiz getQuizById(UUID id) throws NotFoundException;
     QuizResponse getQuizResponseById(UUID id) throws NotFoundException;
     Quiz saveQuiz(QuizCreateRequest quiz) throws NotFoundException;
     void editQuiz(UUID id, QuizCreateRequest quiz) throws NotFoundException;
     void deleteQuiz(UUID id) throws NotFoundException;
-    List<QuizResponse> getQuizByCategoryId(UUID id);
+    List<QuizResponse> getQuizByCategoryId(UUID id) throws NotFoundException;
     void changeQuizActiveStatus(UUID id)throws NotFoundException;
     TakeResponse processQuizSubmission(TakeCreateRequest request) throws NotFoundException, JsonProcessingException;
     UserQuizResponse userQuizObject(UUID quizId) throws NotFoundException;
+    UserStatistics getUserStatistics(Authentication userDetails) throws NotFoundException;
 }

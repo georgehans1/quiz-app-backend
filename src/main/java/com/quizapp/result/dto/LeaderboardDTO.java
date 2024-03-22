@@ -16,6 +16,7 @@ public class LeaderboardDTO {
     private String userImage;
     private String userName;
     private Integer bestScore;
+    private Integer questionCount;
     private Long bestTimeTaken;
     private Integer numberOfTakes;
     private Timestamp dateAchieved;
@@ -26,6 +27,7 @@ public class LeaderboardDTO {
         dto.setUserName(result.getUser().getUserName());
         dto.setUserImage(result.getUser().getUserImage());
         dto.setBestScore(result.getScore());
+        dto.setQuestionCount(result.getQuestionCount());
         dto.setBestTimeTaken(result.getTake().getTimeElapsed());
         dto.setDateAchieved(result.getCreatedAt());
         return dto;
