@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AnyRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -33,12 +34,13 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return  http
                 .csrf(AbstractHttpConfigurer::disable)
-                .httpBasic(withDefaults())
+                .httpBasic(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/","/login", "/logout", "/actuator/**").permitAll()
                             .anyRequest().authenticated();
                 })
+                .addFilterAfter(new SessionCookieFilter(), BasicAuthenticationFilter.class)
                 .oauth2Login(oauth2 -> oauth2.
                         userInfoEndpoint(
                                 infoEndpoint -> infoEndpoint.oidcUserService(oAuth2UserService))
@@ -67,6 +69,7 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
 
 }
 
