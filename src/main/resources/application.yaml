@@ -3,9 +3,9 @@ spring:
     init:
       mode: always
   datasource:
-    url: jdbc:postgresql://localhost:5432/quizapp
-    username: postgres
-    password: dagga1234
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
 
   jpa:
     hibernate:
