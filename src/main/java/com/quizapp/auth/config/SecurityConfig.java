@@ -42,7 +42,7 @@ public class SecurityConfig {
                 .oauth2Login(oauth2 -> oauth2.
                         userInfoEndpoint(
                                 infoEndpoint -> infoEndpoint.oidcUserService(oAuth2UserService))
-                        .defaultSuccessUrl("http://localhost:4200/dashboard"))
+                        .defaultSuccessUrl("https://hans-quizapp.web.app/dashboard"))
                 .exceptionHandling(handler -> handler.defaultAuthenticationEntryPointFor((request,response, authenticationException) ->{
                     log.info("Unauthorized User {}");
                     response.setStatus(HttpStatus.UNAUTHORIZED.value());
@@ -59,7 +59,7 @@ public class SecurityConfig {
 
     private static CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+        configuration.setAllowedOrigins(List.of("http://localhost:4200","https://hans-quizapp.web.app"));
         configuration.setAllowedMethods(List.of("*"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
