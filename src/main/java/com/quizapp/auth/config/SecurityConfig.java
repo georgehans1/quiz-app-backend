@@ -40,15 +40,15 @@ public class SecurityConfig {
                     auth.requestMatchers("/","/login", "/logout", "/actuator/**").permitAll()
                             .anyRequest().authenticated();
                 })
-                .addFilterAfter(new SessionCookieFilter(), BasicAuthenticationFilter.class)
+//                .addFilterAfter(new SessionCookieFilter(), BasicAuthenticationFilter.class)
                 .oauth2Login(oauth2 -> oauth2.
                         userInfoEndpoint(
                                 infoEndpoint -> infoEndpoint.oidcUserService(oAuth2UserService))
                         .defaultSuccessUrl("https://hans-quizapp.web.app/dashboard"))
-                .exceptionHandling(handler -> handler.defaultAuthenticationEntryPointFor((request,response, authenticationException) ->{
-                    log.info("Unauthorized User {}");
-                    response.setStatus(HttpStatus.UNAUTHORIZED.value());
-                }, AnyRequestMatcher.INSTANCE))
+//                .exceptionHandling(handler -> handler.defaultAuthenticationEntryPointFor((request,response, authenticationException) ->{
+//                    log.info("Unauthorized User {}");
+//                    response.setStatus(HttpStatus.UNAUTHORIZED.value());
+//                }, AnyRequestMatcher.INSTANCE))
                 .logout(handler -> {
                     handler.logoutUrl("/logout").permitAll();
                     handler.clearAuthentication(true);
