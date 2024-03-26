@@ -1,0 +1,27 @@
+spring:
+  sql:
+    init:
+      mode: always
+      continue-on-error: false
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: "95132480527-6ej7h67pki6o17lsef05mg0of9oojkhj.apps.googleusercontent.com"
+            client-secret: "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"
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        security : "TRACE"
