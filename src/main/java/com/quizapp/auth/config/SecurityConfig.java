@@ -47,12 +47,6 @@ public class SecurityConfig {
                     auth.requestMatchers("/","/login", "/logout", "/actuator/**").permitAll()
                             .anyRequest().authenticated();
                 })
-//                .headers(headers -> {
-//                    headers
-//                            .httpStrictTransportSecurity(HeadersConfigurer.HstsConfig::disable)
-//                            .xssProtection(HeadersConfigurer.XXssConfig::disable);
-//                })
-//                .addFilterAfter(new SessionCookieFilter(), BasicAuthenticationFilter.class)
                 .oauth2Login(oauth2 -> oauth2.
                         userInfoEndpoint(
                                 infoEndpoint -> infoEndpoint.oidcUserService(oAuth2UserService))
@@ -70,22 +64,6 @@ public class SecurityConfig {
                 .build();
     }
 
-//    @Bean
-//    public CookieSerializer cookieSerializer() {
-//        DefaultCookieSerializer serializer = new DefaultCookieSerializer();
-//        serializer.setCookieName("JSESSIONID");
-//        serializer.setDomainName("https://quiz-app-backend-uwt7.onrender.com");
-//        serializer.setCookiePath("/");
-//        serializer.setSameSite("None");
-//        serializer.setUseSecureCookie(true); // Set to true for HTTPS
-//        return serializer;
-//    }
-
-//    @Bean
-//    public WebServerFactoryCustomizer<TomcatServletWebServerFactory> cookieProcessorCustomizer() {
-//        return (serverFactory) -> serverFactory.addContextCustomizers(
-//                (context) -> context.setCookieProcessor(new Rfc6265CookieProcessor()));
-//    }
 
     private static CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
