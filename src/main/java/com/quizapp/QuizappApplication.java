@@ -11,6 +11,7 @@ public class QuizappApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(QuizappApplication.class, args);
 	}
+
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
