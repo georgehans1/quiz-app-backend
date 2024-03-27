@@ -52,7 +52,6 @@ public class SecurityConfig {
 //                            .httpStrictTransportSecurity(HeadersConfigurer.HstsConfig::disable)
 //                            .xssProtection(HeadersConfigurer.XXssConfig::disable);
 //                })
-                .addFilterAfter(new SessionCookieFilter(), BasicAuthenticationFilter.class)
                 .oauth2Login(oauth2 -> oauth2.
                         userInfoEndpoint(
                                 infoEndpoint -> infoEndpoint.oidcUserService(oAuth2UserService))
@@ -61,6 +60,7 @@ public class SecurityConfig {
                     log.info("Unauthorized User");
                     response.setStatus(HttpStatus.UNAUTHORIZED.value());
                 }, AnyRequestMatcher.INSTANCE))
+                .addFilterAfter(new SessionCookieFilter(), BasicAuthenticationFilter.class)
                 .logout(handler -> {
                     handler.logoutUrl("/logout").permitAll();
                     handler.clearAuthentication(true);
