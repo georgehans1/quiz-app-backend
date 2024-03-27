@@ -52,11 +52,11 @@ public class SecurityConfig {
 //                            .httpStrictTransportSecurity(HeadersConfigurer.HstsConfig::disable)
 //                            .xssProtection(HeadersConfigurer.XXssConfig::disable);
 //                })
-//                .addFilterAfter(new SessionCookieFilter(), BasicAuthenticationFilter.class)
+                .addFilterAfter(new SessionCookieFilter(), BasicAuthenticationFilter.class)
                 .oauth2Login(oauth2 -> oauth2.
                         userInfoEndpoint(
                                 infoEndpoint -> infoEndpoint.oidcUserService(oAuth2UserService))
-                        .defaultSuccessUrl("https://hans-quizapp.web.app/dashboard"))
+                        .defaultSuccessUrl("http://localhost:4200/dashboard"))
                 .exceptionHandling(handler -> handler.defaultAuthenticationEntryPointFor((request,response, authenticationException) ->{
                     log.info("Unauthorized User");
                     response.setStatus(HttpStatus.UNAUTHORIZED.value());
