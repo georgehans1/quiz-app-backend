@@ -3,11 +3,21 @@ spring:
     init:
       mode: always
       continue-on-error: false
+
   datasource:
     driver-class-name: org.postgresql.Driver
     url: ${DATABASE_URL}
     username: ${DATABASE_USERNAME}
     password: ${DATABASE_PASSWORD}
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      max-lifetime: 1800000  # 30 minutes
+      keepalive-time: 300000  # 5 minutes
+      idle-timeout: 600000    # 10 minutes
+      data-source-properties:
+        cachePrepStmts: false
+        prepareThreshold: 0
 
   jpa:
     hibernate:
@@ -20,8 +30,9 @@ spring:
           google:
             client-id: "95132480527-6ej7h67pki6o17lsef05mg0of9oojkhj.apps.googleusercontent.com"
             client-secret: "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"
+
 logging:
   level:
     org:
       springframework:
-        security : "TRACE"
+        security: "TRACE"
